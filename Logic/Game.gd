@@ -1,0 +1,3 @@
+extends Node
+
+#player: Player

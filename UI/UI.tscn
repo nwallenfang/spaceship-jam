@@ -1,0 +1,52 @@
+[gd_scene load_steps=3 format=3 uid="uid://c08mfsv54hn7y"]
+
+[ext_resource type="Script" path="res://UI/UI.gd" id="1_icasy"]
+[ext_resource type="Texture2D" uid="uid://c0x00io6vtrqv" path="res://Assets/Sprites/crosshair_simple.png" id="2_x1k8g"]
+
+[node name="UI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_icasy")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+
+[node name="Diagnostics" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+
+[node name="FPS" type="Label" parent="Margin/Diagnostics"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Resolution" type="Label" parent="Margin/Diagnostics"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer"]
+layout_mode = 2
+texture = ExtResource("2_x1k8g")
+expand_mode = 2
+stretch_mode = 3
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

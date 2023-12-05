@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://pwc3t4qyq7e5"]
+[gd_scene load_steps=7 format=3 uid="uid://pwc3t4qyq7e5"]
 
 [ext_resource type="Script" path="res://Logic/Player.gd" id="1_8yl3e"]
+[ext_resource type="Script" path="res://addons/smoothing/smoothing.gd" id="2_vwgdf"]
 [ext_resource type="Script" path="res://Logic/PlayerCamera.gd" id="3_8qxnc"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lqbg8"]
@@ -14,7 +15,7 @@ material = SubResource("StandardMaterial3D_lqbg8")
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_8yl3e")
 
-[node name="Mesh" type="MeshInstance3D" parent="."]
+[node name="DebugMesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_3j16b")
 
@@ -22,9 +23,12 @@ mesh = SubResource("CapsuleMesh_3j16b")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_50cj3")
 
-[node name="PlayerCamera" type="Camera3D" parent="." node_paths=PackedStringArray("pivot")]
+[node name="Smoothing" type="Node3D" parent="."]
+script = ExtResource("2_vwgdf")
+
+[node name="PlayerCamera" type="Camera3D" parent="Smoothing" node_paths=PackedStringArray("pivot")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -0.5)
 current = true
 fov = 80.0
 script = ExtResource("3_8qxnc")
-pivot = NodePath("..")
+pivot = NodePath("../..")

@@ -1,23 +1,24 @@
 [gd_scene load_steps=7 format=3 uid="uid://dxcykg8r6a2ma"]
 
+[ext_resource type="Texture2D" uid="uid://dfco54pkwpc7i" path="res://Assets/equirect_skybox.png" id="1_da1ow"]
 [ext_resource type="PackedScene" uid="uid://bt002kak4laoj" path="res://Actors/Airship.tscn" id="1_qcxks"]
 [ext_resource type="PackedScene" uid="uid://pwc3t4qyq7e5" path="res://Actors/Player.tscn" id="2_yrd8j"]
 
-[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_wxew3"]
-turbidity = 2.22
-ground_color = Color(0.101961, 0.0705882, 0.0352941, 1)
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_n1dsr"]
+panorama = ExtResource("1_da1ow")
 
 [sub_resource type="Sky" id="Sky_rcbms"]
-sky_material = SubResource("PhysicalSkyMaterial_wxew3")
+sky_material = SubResource("PanoramaSkyMaterial_n1dsr")
+process_mode = 1
 
 [sub_resource type="Environment" id="Environment_jrkl2"]
 background_mode = 2
+background_energy_multiplier = 1.78
 sky = SubResource("Sky_rcbms")
+ambient_light_source = 3
 ambient_light_color = Color(0.866667, 0.866667, 0.866667, 1)
+reflected_light_source = 2
 tonemap_mode = 2
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0nu6l"]
-albedo_color = Color(0.215686, 0.552941, 0.235294, 1)
 
 [node name="World" type="Node3D"]
 
@@ -26,17 +27,8 @@ environment = SubResource("Environment_jrkl2")
 
 [node name="Sun" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.698228, 0.715876, 0, -0.715876, 0.698228, 0, 0, 0)
-light_energy = 2.7
+light_energy = 0.175
 shadow_enabled = true
-
-[node name="Ground" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.470703)
-size = Vector3(200, 1, 200)
-material = SubResource("StandardMaterial3D_0nu6l")
-
-[node name="Ceiling" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 100, 3.85969)
-size = Vector3(200, 1, 200)
 
 [node name="Airship" parent="." instance=ExtResource("1_qcxks")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 53.2823, 0)

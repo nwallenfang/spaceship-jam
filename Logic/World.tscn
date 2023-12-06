@@ -1,9 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://dxcykg8r6a2ma"]
+[gd_scene load_steps=10 format=3 uid="uid://dxcykg8r6a2ma"]
 
 [ext_resource type="Script" path="res://Logic/World.gd" id="1_lcoda"]
 [ext_resource type="Texture2D" uid="uid://dfco54pkwpc7i" path="res://Assets/equirect_skybox.png" id="2_sacim"]
 [ext_resource type="PackedScene" uid="uid://bt002kak4laoj" path="res://Logic/Ship.tscn" id="3_ujrfo"]
 [ext_resource type="PackedScene" uid="uid://pwc3t4qyq7e5" path="res://Logic/Player.tscn" id="4_gt1bf"]
+[ext_resource type="PackedScene" uid="uid://4ndeomqx8ukx" path="res://Objects/Asteroid.tscn" id="5_l2d12"]
+[ext_resource type="PackedScene" uid="uid://c5qjynfu3ngbl" path="res://Objects/Test/DummyInteract.tscn" id="6_10ry7"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_n1dsr"]
 panorama = ExtResource("2_sacim")
@@ -29,10 +31,24 @@ environment = SubResource("Environment_jrkl2")
 
 [node name="Sun" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.698228, 0.715876, 0, -0.715876, 0.698228, 0, 0, 0)
-light_energy = 0.175
+light_energy = 0.548
 shadow_enabled = true
 
 [node name="Ship" parent="." instance=ExtResource("3_ujrfo")]
 
 [node name="Player" parent="Ship" instance=ExtResource("4_gt1bf")]
 transform = Transform3D(0.0219196, 0, -0.99976, 0, 1, 0, 0.99976, 0, 0.0219196, 0, 0, 0)
+
+[node name="Asteroids" type="Node" parent="."]
+
+[node name="Asteroid1" parent="Asteroids" instance=ExtResource("5_l2d12")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.9788, 5.37028, 46.941)
+
+[node name="Asteroid2" parent="Asteroids" instance=ExtResource("5_l2d12")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.83535, 5.37028, 76.5624)
+
+[node name="Asteroid3" parent="Asteroids" instance=ExtResource("5_l2d12")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.0113, 5.37028, 52.7506)
+
+[node name="DummyInteract" parent="." instance=ExtResource("6_10ry7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.62596, 1.0235, -2.92629)

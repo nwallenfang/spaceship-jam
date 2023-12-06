@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://c08mfsv54hn7y"]
+[gd_scene load_steps=6 format=3 uid="uid://c08mfsv54hn7y"]
 
 [ext_resource type="Script" path="res://UI/UI.gd" id="1_icasy"]
+[ext_resource type="Script" path="res://UI/Crosshair.gd" id="2_ndnqt"]
 [ext_resource type="Texture2D" uid="uid://c0x00io6vtrqv" path="res://Assets/Sprites/crosshair_simple.png" id="2_x1k8g"]
+[ext_resource type="FontFile" uid="uid://wqyeyq1y0ji5" path="res://Assets/Fonts/Agane╠Ç 75 (Extra Bold) sign.ttf" id="3_jm65o"]
+
+[sub_resource type="Theme" id="Theme_syo0j"]
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -35,7 +39,17 @@ layout_mode = 2
 wait_time = 0.5
 autostart = true
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="Crosshair" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_ndnqt")
+
+[node name="CrosshairContainer" type="CenterContainer" parent="Crosshair"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -43,10 +57,25 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TextureRect" type="TextureRect" parent="CenterContainer"]
+[node name="CrosshairTexture" type="TextureRect" parent="Crosshair/CrosshairContainer"]
 layout_mode = 2
 texture = ExtResource("2_x1k8g")
 expand_mode = 2
 stretch_mode = 3
+
+[node name="InteractLabel" type="Label" parent="Crosshair"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.525
+anchor_right = 1.0
+anchor_bottom = 0.563889
+theme = SubResource("Theme_syo0j")
+theme_override_fonts/font = ExtResource("3_jm65o")
+theme_override_font_sizes/font_size = 20
+text = "[E] Interact"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

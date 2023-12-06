@@ -32,3 +32,9 @@ current = true
 fov = 80.0
 script = ExtResource("3_8qxnc")
 pivot = NodePath("../..")
+
+[node name="InteractRayCast" type="RayCast3D" parent="Smoothing/PlayerCamera"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+target_position = Vector3(0, -1.8, 0)
+collision_mask = 4
+collide_with_areas = true

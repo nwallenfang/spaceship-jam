@@ -1,6 +1,6 @@
 extends Node
 
-#player: Player
+var player: Player = null
 
 
 enum State {
@@ -9,7 +9,6 @@ enum State {
 }
 
 var state: State
-
 
 func _ready() -> void:
 	if OS.is_debug_build():

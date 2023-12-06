@@ -1,0 +1,93 @@
+[gd_scene load_steps=15 format=3 uid="uid://c68j2i561e1ci"]
+
+[ext_resource type="Texture2D" uid="uid://dfco54pkwpc7i" path="res://Assets/equirect_skybox.png" id="1_faihk"]
+[ext_resource type="Shader" path="res://Effects/Fog.gdshader" id="2_snjgj"]
+[ext_resource type="Shader" path="res://Effects/SpinningFogTorus.gdshader" id="3_tfdtt"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_h5vdi"]
+panorama = ExtResource("1_faihk")
+
+[sub_resource type="Sky" id="Sky_s0nnp"]
+sky_material = SubResource("PanoramaSkyMaterial_h5vdi")
+process_mode = 1
+
+[sub_resource type="Environment" id="Environment_op4w0"]
+background_mode = 2
+background_energy_multiplier = 1.7
+sky = SubResource("Sky_s0nnp")
+ambient_light_source = 3
+ambient_light_color = Color(0.866667, 0.866667, 0.866667, 1)
+ambient_light_energy = 7.61
+reflected_light_source = 2
+tonemap_mode = 2
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.0
+volumetric_fog_detail_spread = 6.0
+volumetric_fog_temporal_reprojection_amount = 0.979
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_w0d6x"]
+
+[sub_resource type="NoiseTexture3D" id="NoiseTexture3D_dljal"]
+noise = SubResource("FastNoiseLite_w0d6x")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_6pgfy"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_geggm"]
+noise = SubResource("FastNoiseLite_6pgfy")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_h0bpk"]
+shader = ExtResource("2_snjgj")
+shader_parameter/albedo = Color(0.615686, 0.290196, 0.6, 1)
+shader_parameter/emission_strength = 0.58
+shader_parameter/emission_color = Color(0.901961, 0.901961, 0.478431, 1)
+shader_parameter/density = 0.29
+shader_parameter/noise = SubResource("NoiseTexture3D_dljal")
+shader_parameter/speed = 500.0
+shader_parameter/time_noise = SubResource("NoiseTexture2D_geggm")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_tjjj2"]
+frequency = 0.022
+offset = Vector3(162.16, 0, 0)
+
+[sub_resource type="NoiseTexture3D" id="NoiseTexture3D_tgsby"]
+noise = SubResource("FastNoiseLite_tjjj2")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qg4lu"]
+shader = ExtResource("3_tfdtt")
+shader_parameter/radius1 = 5.61
+shader_parameter/radius2 = 0.345
+shader_parameter/noise_intensity = 3.375
+shader_parameter/density = 0.745
+shader_parameter/spin_speed = 0.735
+shader_parameter/color = Color(0.803896, 2, 1.33666, 1)
+shader_parameter/noise = SubResource("NoiseTexture3D_tgsby")
+
+[node name="Menu3dBackground" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_op4w0")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.811829, 0.583896, 0, -0.583896, 0.811829, 0, 0, 0)
+light_energy = 0.815
+shadow_enabled = true
+
+[node name="Fog" type="FogVolume" parent="."]
+transform = Transform3D(0.911878, -0.0813135, 0.402325, -0.336458, 0.413351, 0.84613, -0.235103, -0.906934, 0.349568, -11.2473, -5.39638, -2.08567)
+size = Vector3(12.5, 12.5, 18.533)
+shape = 0
+material = SubResource("ShaderMaterial_h0bpk")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.353475, 0.931884, -0.0815294, 0, 0.0871558, 0.996195, 0.935444, -0.35213, 0.0308074, -6.31452, 3.96475, 1.40236)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.990889, 0, 0.134678, -0.122924, -0.408569, 0.904412, 0.0550253, -0.912727, -0.404847, 0, 0, 0)
+light_color = Color(1, 0.776471, 0.827451, 1)
+light_energy = 0.0
+
+[node name="SpinningFogVolume" type="FogVolume" parent="."]
+transform = Transform3D(-0.378262, 0.918378, -0.116195, -0.749402, -0.230113, 0.620842, 0.543429, 0.321917, 0.775277, -2.24809, -5.09125, 5.2227)
+size = Vector3(26.16, 10, 26)
+shape = 2
+material = SubResource("ShaderMaterial_qg4lu")

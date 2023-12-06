@@ -1,4 +1,6 @@
 extends Control
+# class has mouse management - should later be bound to signals from Game state changing
+
 
 
 func _unhandled_input(event):

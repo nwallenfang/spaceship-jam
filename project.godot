@@ -13,10 +13,11 @@ config_version=5
 config/name="Spaceship Jam"
 config/description="Entry to 7DFPS 2023 game jam."
 config/version="0.1"
+config/tags=PackedStringArray("jam")
 run/main_scene="res://UI/Main.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 boot_splash/fullsize=false
-config/icon="res://icon.svg"
+config/icon="res://Assets/Sprites/icon.png"
 
 [autoload]
 
@@ -59,3 +60,4 @@ move_right={
 [rendering]
 
 lights_and_shadows/directional_shadow/soft_shadow_filter_quality=3
+anti_aliasing/quality/use_debanding=true

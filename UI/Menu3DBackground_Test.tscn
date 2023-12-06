@@ -1,0 +1,76 @@
+[gd_scene load_steps=7 format=3 uid="uid://cdpm46poraucg"]
+
+[ext_resource type="Texture2D" uid="uid://dfco54pkwpc7i" path="res://Assets/equirect_skybox.png" id="1_kykdk"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_prwj0"]
+panorama = ExtResource("1_kykdk")
+
+[sub_resource type="Sky" id="Sky_rcbms"]
+sky_material = SubResource("PanoramaSkyMaterial_prwj0")
+process_mode = 1
+
+[sub_resource type="Environment" id="Environment_76u3j"]
+background_mode = 2
+background_energy_multiplier = 1.7
+sky = SubResource("Sky_rcbms")
+ambient_light_source = 3
+ambient_light_color = Color(0.866667, 0.866667, 0.866667, 1)
+ambient_light_energy = 7.61
+reflected_light_source = 2
+tonemap_mode = 2
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.0
+volumetric_fog_detail_spread = 6.0
+volumetric_fog_temporal_reprojection_amount = 0.98
+
+[sub_resource type="Shader" id="Shader_g6v32"]
+code = "
+// NOTE: Shader automatically converted from Godot Engine 4.2.stable's FogMaterial.
+
+shader_type fog;
+
+uniform float density : hint_range(0, 1, 0.0001) = 1.0;
+uniform vec4 albedo : source_color = vec4(1.0);
+uniform vec4 emission : source_color = vec4(0, 0, 0, 1);
+uniform float height_falloff = 0.0;
+uniform float edge_fade = 0.1;
+uniform sampler3D density_texture: hint_default_white;
+
+
+void fog() {
+    DENSITY = density * clamp(exp2(-height_falloff * (WORLD_POSITION.y - OBJECT_POSITION.y)), 0.0, 1.0);
+    DENSITY *= texture(density_texture, UVW).r;
+    DENSITY *= pow(clamp(-2.0 * SDF / min(min(SIZE.x, SIZE.y), SIZE.z), 0.0, 1.0), edge_fade);
+    ALBEDO = albedo.rgb;
+    EMISSION = emission.rgb;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qbvpk"]
+shader = SubResource("Shader_g6v32")
+shader_parameter/density = 1.0
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/emission = Color(0, 0, 0, 1)
+shader_parameter/height_falloff = 0.0
+shader_parameter/edge_fade = 0.1
+
+[node name="Menu3dBackground" type="Node3D"]
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.811829, 0.583896, 0, -0.583896, 0.811829, 0, 0, 0)
+light_energy = 0.815
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.828119, 0, 0.560552, 0, 1, 0, -0.560552, 0, 0.828119, 0.989933, 0, 1.46245)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.990889, 0, 0.134678, -0.122924, -0.408569, 0.904412, 0.0550253, -0.912727, -0.404847, 0, 0, 0)
+light_color = Color(1, 0.776471, 0.827451, 1)
+light_energy = 0.0
+
+[node name="WorldEnvironment2" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_76u3j")
+
+[node name="FogVolume" type="FogVolume" parent="."]
+material = SubResource("ShaderMaterial_qbvpk")

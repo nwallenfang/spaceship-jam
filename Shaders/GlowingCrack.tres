@@ -1,0 +1,74 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://534jbsjdvf4a"]
+
+[sub_resource type="Shader" id="Shader_mc0dp"]
+code = "shader_type spatial;
+render_mode blend_mix,depth_draw_opaque,cull_back,diffuse_burley,specular_schlick_ggx;
+
+#include \"res://Shaders/lib.gdshaderinc\"
+
+uniform vec4 albedo : source_color;
+uniform sampler2D texture_albedo : source_color,filter_linear_mipmap,repeat_enable;
+uniform float roughness : hint_range(0,1);
+uniform vec3 uv1_scale;
+uniform vec3 uv1_offset;
+uniform vec3 uv2_scale;
+uniform vec3 uv2_offset;
+
+uniform vec3 crack_color: source_color;
+uniform vec3 crack_color_inner: source_color;
+uniform float inner_distance = .15;
+uniform sampler3D voronoi;
+
+uniform float crack_progress : hint_range(0.0, 1.0);
+uniform float crack_size : hint_range(0.0, 2.0);
+
+varying smooth vec3 pos;
+
+
+void vertex() {
+	pos = VERTEX * .5 * crack_size;
+}
+
+void fragment() {
+	float crack_value = clamp_and_map(crack_progress, 0.0, 1.0, 1.0, .7);
+	float noise_grid = 1.0 - clamp_and_map(texture(voronoi, pos).r, crack_value, crack_value + .05, 1.0, 0.0);
+	float noise_grid_alpha = 1.0 - clamp_and_map(texture(voronoi, pos).r, crack_value, crack_value + .05, 1.0, 0.0);
+	float noise_grid_inner = 1.0 - clamp_and_map_and_pow(texture(voronoi, pos).r, crack_value + inner_distance, crack_value + inner_distance +.2, 1.0, 0.0, 3.0);
+	ALPHA = noise_grid_alpha;
+	ALBEDO.rgb = mix(albedo.rgb, crack_color, noise_grid);
+	EMISSION = noise_grid * mix(crack_color, crack_color_inner * 2.0, noise_grid_inner * .5) * crack_progress * 5.0;
+}
+"
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_itfic"]
+noise_type = 2
+seed = 1
+frequency = 0.0438
+fractal_octaves = 1
+cellular_distance_function = 1
+cellular_return_type = 6
+
+[sub_resource type="NoiseTexture3D" id="NoiseTexture3D_iwhw6"]
+width = 128
+height = 128
+depth = 128
+seamless = true
+seamless_blend_skirt = 0.402
+noise = SubResource("FastNoiseLite_itfic")
+
+[resource]
+resource_local_to_scene = true
+render_priority = 0
+shader = SubResource("Shader_mc0dp")
+shader_parameter/albedo = Color(0, 0, 0, 1)
+shader_parameter/roughness = 1.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/crack_color = Color(1, 0.666667, 0, 1)
+shader_parameter/crack_color_inner = Color(1, 1, 1, 1)
+shader_parameter/inner_distance = 0.13
+shader_parameter/crack_progress = 0.0
+shader_parameter/crack_size = 0.683
+shader_parameter/voronoi = SubResource("NoiseTexture3D_iwhw6")

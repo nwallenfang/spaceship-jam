@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://c6ajkjmsx5bew"]
+
+[ext_resource type="Material" uid="uid://534jbsjdvf4a" path="res://Shaders/GlowingCrack.tres" id="1_jfl4c"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_0dhn4"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+material_override = ExtResource("1_jfl4c")
+mesh = SubResource("CylinderMesh_0dhn4")

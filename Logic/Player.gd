@@ -13,6 +13,8 @@ var currently_hovering: InteractArea = null
 signal hover_interaction_with(action_hint: String)
 signal stop_hover_interaction_with
 
+signal entered_crows_nest
+signal exited_crows_nest
 
 enum PlayerState {
 	FREE_MOVE,
@@ -21,12 +23,16 @@ enum PlayerState {
 
 var player_state: PlayerState = PlayerState.FREE_MOVE: 
 	set(new_state):
+		#print("SET to ", PlayerState.keys()[new_state])
+		if player_state == new_state:
+			if new_state == PlayerState.IN_CROWS_NEST:
+				printerr("set to same player state " + PlayerState.keys()[new_state])
 		if new_state == PlayerState.IN_CROWS_NEST:
-			# idk ?? ? ?
-			player_state = new_state
-		else:
-			player_state = new_state
+			entered_crows_nest.emit()
 
+
+		player_state = new_state
+			
 
 func _ready():
 	if Game.player == null:
@@ -36,20 +42,45 @@ func _ready():
 	$DebugMesh.visible = false
 	
 
+var prev_camera_transform: Transform3D
+func enter_crows_nest(crow_cam: Camera3D):
+	$Smoothing.set_enabled(false)
+	prev_camera_transform = %PlayerCamera.transform
+	%PlayerCamera.global_transform = crow_cam.global_transform
+	%PlayerCamera.pivot = crow_cam
+	player_state = Player.PlayerState.IN_CROWS_NEST
+	
+func exit_crows_next_animation():
+	# TODO go downwards again, lerp cameras maybe
+	$Smoothing/PlayerCamera.make_current()
+	player_state = PlayerState.FREE_MOVE
+	%PlayerCamera.transform = prev_camera_transform
+	%PlayerCamera.pivot = self
+	$Smoothing.set_enabled(true)
+
+
+
 func _physics_process(delta):
 	var movement = Vector3()
 	
-	if player_state != PlayerState.FREE_MOVE:
-		return
-
-	if Input.is_action_pressed("move_left"):
-		movement.x -= 1.0
-	if Input.is_action_pressed("move_right"):
-		movement.x += 1.0
-	if Input.is_action_pressed("move_forward"):
-		movement.z -= 1.0
-	if Input.is_action_pressed("move_backwards"):
-		movement.z += 1.0
+	if player_state == PlayerState.IN_CROWS_NEST:
+		if Input.is_action_just_pressed("interact"):
+			exited_crows_nest.emit()
+			exit_crows_next_animation()
+			return
+	
+	if player_state == PlayerState.FREE_MOVE:
+		if Input.is_action_pressed("move_left"):
+			movement.x -= 1.0
+		if Input.is_action_pressed("move_right"):
+			movement.x += 1.0
+		if Input.is_action_pressed("move_forward"):
+			movement.z -= 1.0
+		if Input.is_action_pressed("move_backwards"):
+			movement.z += 1.0
+		if Input.is_action_just_pressed("interact") and currently_hovering != null:
+			print("Player: emit interacted")
+			currently_hovering.interacted.emit()
 	
 
 	var yaw_rotation = Basis(Vector3.UP, rotation.y)
@@ -69,8 +100,4 @@ func _physics_process(delta):
 		if currently_hovering != null:
 			currently_hovering = null
 			stop_hover_interaction_with.emit()
-	
-	if Input.is_action_just_pressed("interact") and currently_hovering != null:
-		currently_hovering.interacted.emit()
-	
 

@@ -17,19 +17,19 @@ radius = 0.308066
 script = ExtResource("1_jjrtw")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -8.10648e-09, -0.25, -0.185455)
 use_collision = true
 size = Vector3(2, 0.5, 2)
 material = SubResource("StandardMaterial3D_xfbpf")
 
 [node name="CSGBox3D2" type="CSGBox3D" parent="."]
-transform = Transform3D(0.205803, 0, 0, 0, 0.237557, 0, 0, 0, 0.237557, 0, 0.0527075, 0)
+transform = Transform3D(-0.205803, 0, -2.07679e-08, 0, 0.237557, 0, 1.79919e-08, 0, -0.237557, -8.10648e-09, 0.0527075, -0.185455)
 use_collision = true
 size = Vector3(2, 0.5, 2)
 material = SubResource("StandardMaterial3D_ra7am")
 
 [node name="CSGBox3D3" type="CSGBox3D" parent="."]
-transform = Transform3D(0.190283, 0, 0, 0, 0.0868025, -0.22113, 0, 0.22113, 0.0868025, 0, 0.298099, -0.278182)
+transform = Transform3D(-0.190283, -1.93318e-08, -7.58852e-09, 0, 0.0868025, -0.22113, 1.66351e-08, -0.22113, -0.0868025, 1.6213e-08, 0.298099, 0.0927273)
 use_collision = true
 size = Vector3(2, 0.5, 2)
 material = SubResource("StandardMaterial3D_ra7am")
@@ -39,3 +39,8 @@ material = SubResource("StandardMaterial3D_ra7am")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="InteractArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.197941, -0.0615974)
 shape = SubResource("CylinderShape3D_n5cy2")
+
+[node name="CrowsCamera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0, 0.584379, 0)
+
+[connection signal="interacted" from="InteractArea" to="." method="_on_interact_area_interacted"]

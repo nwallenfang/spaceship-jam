@@ -20,7 +20,7 @@ func damage_process(delta: float):
 	
 	for m in %Model.get_children():
 		if m is MeshInstance3D:
-			m.material_overlay.set("shader_parameter/crack_progress", hp / MAX_HP)
+			m.material_overlay.set("shader_parameter/crack_progress", 1.0 - hp / MAX_HP)
 
 func destroy():
 	queue_free()

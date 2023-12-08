@@ -16,6 +16,7 @@ var currently_hovering: InteractArea = null
 signal hover_interaction_with(action_hint: String)
 signal stop_hover_interaction_with
 
+signal start_entering_crows_nest
 signal entered_crows_nest
 signal exited_crows_nest
 
@@ -30,8 +31,8 @@ var player_state: PlayerState = PlayerState.FREE_MOVE:
 		if player_state == new_state:
 			if new_state == PlayerState.IN_CROWS_NEST:
 				printerr("set to same player state " + PlayerState.keys()[new_state])
-		if new_state == PlayerState.IN_CROWS_NEST:
-			entered_crows_nest.emit()
+		#if new_state == PlayerState.IN_CROWS_NEST:
+			#entered_crows_nest.emit()
 
 
 		player_state = new_state
@@ -48,6 +49,7 @@ func _ready():
 var prev_camera_transform: Transform3D
 var crow_cam: Camera3D
 func enter_crows_nest(crow_cam_ref: Camera3D):
+	start_entering_crows_nest.emit()
 	crow_cam = crow_cam_ref
 	player_state = Player.PlayerState.IN_CROWS_NEST
 	# block player from moving during the anim
@@ -65,18 +67,16 @@ func enter_crows_nest(crow_cam_ref: Camera3D):
 	# unblock player afterwards
 	await tween.finished
 	blocked = false
+	entered_crows_nest.emit()
+	crow_cam.enable()
 	
 func exit_crows_next_animation():
 	# TODO go downwards again, lerp cameras maybe
 	crow_cam.transform = prev_camera_transform
 	$Smoothing/PlayerCamera.make_current()
+	crow_cam.process_mode = Node.PROCESS_MODE_DISABLED
 	
 	player_state = PlayerState.FREE_MOVE
-	#%PlayerCamera.transform = prev_camera_transform
-	#%PlayerCamera.pivot = self
-	#$Smoothing.set_enabled(true)
-
-
 
 func _physics_process(delta):
 	var movement = Vector3()

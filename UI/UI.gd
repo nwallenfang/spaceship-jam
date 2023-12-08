@@ -6,6 +6,7 @@ func _ready():
 		Game.player.hover_interaction_with.connect(start_interaction)
 		Game.player.stop_hover_interaction_with.connect(stop_interaction)
 		Game.player.entered_crows_nest.connect(enter_crows_nest)
+		Game.player.start_entering_crows_nest.connect(start_enter_crows_nest)
 		Game.player.exited_crows_nest.connect(exit_crows_nest)
 	else:
 		printerr("UI not wired up to Player.")
@@ -20,13 +21,16 @@ func start_interaction(action_hint: String):
 func stop_interaction():
 	%InteractLabel.visible = false
 	
+func start_enter_crows_nest():
+	%InteractLabel.visible = false
+	$Crosshair.visible = false
 
 func enter_crows_nest():
-	%InteractLabel.visible = false
 	%ExitLabel.visible = true
 	
 func exit_crows_nest():
 	%ExitLabel.visible = false
+	$Crosshair.visible = true
 
 
 func _on_timer_timeout():

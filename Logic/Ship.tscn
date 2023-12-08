@@ -6,7 +6,7 @@
 [node name="Ship" type="Node3D"]
 
 [node name="CrowsNest" parent="." instance=ExtResource("1_pm2fd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.539491, 0.573042, -1.36445)
+transform = Transform3D(-0.988282, 0, -0.152641, 0, 1, 0, 0.152641, 0, -0.988282, 0.237, 0.09, -1.723)
 
 [node name="Spaceship" parent="." instance=ExtResource("2_q5m7d")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.228477, 0, -1.54229)

@@ -20,6 +20,7 @@ background_energy_multiplier = 1.25
 sky = SubResource("Sky_rcbms")
 ambient_light_source = 3
 ambient_light_color = Color(0.866667, 0.866667, 0.866667, 1)
+ambient_light_sky_contribution = 0.79
 reflected_light_source = 2
 tonemap_mode = 2
 

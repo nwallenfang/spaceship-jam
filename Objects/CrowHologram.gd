@@ -23,8 +23,9 @@ func _process(delta):
 	var angle_rotate = min(angle_distance, delta * angular_speed)
 	
 	# rotate pivot
-	
-	get_parent().rotate(hologram.cross(target).normalized(), angle_rotate)
+	var normal = hologram.cross(target).normalized()
+	if not normal.is_zero_approx():
+		get_parent().rotate(hologram.cross(target).normalized(), angle_rotate)
 	set_rotation_away_from_camera()
 	# check raycast
 	if crows_ray.is_colliding():

@@ -6,6 +6,8 @@ var look_dir: Vector2
 
 @export var hook_target: Marker3D
 
+@export var fixed_camera: bool = true
+
 
 func enable():
 	process_mode = Node.PROCESS_MODE_INHERIT

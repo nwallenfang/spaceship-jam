@@ -53,7 +53,7 @@ func enter_crows_nest(crow_cam_ref: CrowCamera):
 	blocked = true
 
 	prev_camera_transform = crow_cam.transform
-	crow_cam.make_current()
+	crow_cam.get_node("HoloPivot").make_current()
 	# small delay
 	await get_tree().create_timer(.4).timeout
 	# lerp crow cam upwards to the final position

@@ -16,19 +16,22 @@ process_mode = 4
 transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0, 0.584379, 0)
 script = ExtResource("1_nuljb")
 
-[node name="CrowsHologram" type="MeshInstance3D" parent="." node_paths=PackedStringArray("camera", "target_node")]
+[node name="HoloPivot" type="Camera3D" parent="."]
+
+[node name="CrowsHologram" type="MeshInstance3D" parent="HoloPivot" node_paths=PackedStringArray("camera", "target_node")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.635)
 mesh = SubResource("QuadMesh_l6heq")
+skeleton = NodePath("../..")
 script = ExtResource("3_cylbw")
-camera = NodePath("..")
-target_node = NodePath("../HologramTarget")
+camera = NodePath("../..")
+target_node = NodePath("../../HologramTarget")
 
-[node name="SubViewport" type="SubViewport" parent="CrowsHologram"]
+[node name="SubViewport" type="SubViewport" parent="HoloPivot/CrowsHologram"]
 disable_3d = true
 transparent_bg = true
 size = Vector2i(1280, 720)
 
-[node name="Hologram" type="Control" parent="CrowsHologram/SubViewport"]
+[node name="Hologram" type="Control" parent="HoloPivot/CrowsHologram/SubViewport"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -36,7 +39,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="CrowsNestCrosshair" type="Control" parent="CrowsHologram/SubViewport/Hologram"]
+[node name="CrowsNestCrosshair" type="Control" parent="HoloPivot/CrowsHologram/SubViewport/Hologram"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -46,7 +49,7 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("4_2qf4x")
 
-[node name="CrosshairContainer" type="CenterContainer" parent="CrowsHologram/SubViewport/Hologram/CrowsNestCrosshair"]
+[node name="CrosshairContainer" type="CenterContainer" parent="HoloPivot/CrowsHologram/SubViewport/Hologram/CrowsNestCrosshair"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -54,13 +57,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="CrosshairTexture" type="TextureRect" parent="CrowsHologram/SubViewport/Hologram/CrowsNestCrosshair/CrosshairContainer"]
+[node name="CrosshairTexture" type="TextureRect" parent="HoloPivot/CrowsHologram/SubViewport/Hologram/CrowsNestCrosshair/CrosshairContainer"]
 layout_mode = 2
 texture = ExtResource("5_ujo42")
 expand_mode = 2
 stretch_mode = 3
 
-[node name="CrowsNestRay" type="RayCast3D" parent="CrowsHologram"]
+[node name="CrowsNestRay" type="RayCast3D" parent="HoloPivot/CrowsHologram"]
 transform = Transform3D(1, 0, 0, 0, -5.96046e-08, -1, 0, 1, -5.96046e-08, 0, 0, 0)
 target_position = Vector3(0, -500, 0)
 collision_mask = 8

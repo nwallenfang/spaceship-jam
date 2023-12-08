@@ -4,10 +4,14 @@ class_name CrowCamera extends Camera3D
 var camera_sens: float = 1
 var look_dir: Vector2
 
+@export var hook_target: Marker3D
+
 
 func enable():
 	process_mode = Node.PROCESS_MODE_INHERIT
-	$CrowsHologram.top_level = true
+	$HoloPivot.top_level = true
+	$HoloPivot.visible = true
+	$HoloPivot.global_position = self.global_position
 
 func _rotate_camera(sens_mod: float = 1.0) -> void:
 	rotation_degrees.y -= look_dir.x * camera_sens * sens_mod
@@ -23,17 +27,24 @@ func _input(event: InputEvent):
 		_rotate_camera()
 		
 		
-var last_target: Asteroid
+var last_target: LaserArea
 func check_laser_target():
-	if $CrowsHologram/CrowsNestRay.is_colliding():
+	if $HoloPivot/CrowsHologram/CrowsNestRay.is_colliding():
 		# for now only Asteroids, need to add others
 		# or introduce a group
-		var target: Asteroid = $CrowsHologram/CrowsNestRay.get_collider().get_parent() as Asteroid
-		target.is_hit_by_laser = true
+		var target = $HoloPivot/CrowsHologram/CrowsNestRay.get_collider()
+		if target == null or not target is LaserArea:
+			# maybe (hopefully) got destroyed just this frame
+			return
+		target.get_parent().is_hit_by_laser = true
 		
 		if last_target != null and last_target != target:
-			last_target.is_hit_by_laser = false
+			last_target.get_parent().is_hit_by_laser = false
 		last_target = target
 	else:
 		if is_instance_valid(last_target) and last_target != null:
-			last_target.is_hit_by_laser = false
+			last_target.get_parent().is_hit_by_laser = false
+			
+func check_hook_target():
+	# I would say for hooking you don't have to keep the button pressed
+	pass

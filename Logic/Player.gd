@@ -8,11 +8,17 @@ class_name Player extends CharacterBody3D
 
 @onready var raycast = $Smoothing/PlayerCamera/InteractRayCast
 
+# no movement / interaction
+var blocked = false
+
 
 var currently_hovering: InteractArea = null
 signal hover_interaction_with(action_hint: String)
 signal stop_hover_interaction_with
 
+signal start_entering_crows_nest
+signal entered_crows_nest
+signal exited_crows_nest
 
 enum PlayerState {
 	FREE_MOVE,
@@ -21,12 +27,13 @@ enum PlayerState {
 
 var player_state: PlayerState = PlayerState.FREE_MOVE: 
 	set(new_state):
-		if new_state == PlayerState.IN_CROWS_NEST:
-			# idk ?? ? ?
-			player_state = new_state
-		else:
-			player_state = new_state
+		#print("SET to ", PlayerState.keys()[new_state])
+		if player_state == new_state:
+			if new_state == PlayerState.IN_CROWS_NEST:
+				printerr("set to same player state " + PlayerState.keys()[new_state])
 
+		player_state = new_state
+			
 
 func _ready():
 	if Game.player == null:
@@ -36,20 +43,77 @@ func _ready():
 	$DebugMesh.visible = false
 	
 
+var prev_camera_transform: Transform3D
+var crow_cam: CrowCamera
+func enter_crows_nest(crow_cam_ref: CrowCamera):
+	start_entering_crows_nest.emit()
+	crow_cam = crow_cam_ref
+	player_state = Player.PlayerState.IN_CROWS_NEST
+	# block player from moving during the anim
+	blocked = true
+
+	prev_camera_transform = crow_cam.transform
+	if crow_cam.fixed_camera:
+		crow_cam.get_node("HoloPivot").make_current()
+	else:
+		crow_cam.make_current()
+	# small delay
+	await get_tree().create_timer(.4).timeout
+	# lerp crow cam upwards to the final position
+	var target = crow_cam.transform.translated(Vector3(0.0, 4.0, 0.0))
+	var tween = create_tween()
+	tween.tween_property(crow_cam, "transform", target, 3.0).set_trans(Tween.TRANS_QUAD)
+	
+	# unblock player afterwards
+	await tween.finished
+	blocked = false
+	entered_crows_nest.emit()
+	crow_cam.enable()
+	
+func exit_crows_next_animation():
+	# TODO go downwards again, lerp cameras maybe
+	crow_cam.transform = prev_camera_transform
+	$Smoothing/PlayerCamera.make_current()
+	crow_cam.process_mode = Node.PROCESS_MODE_DISABLED
+	
+	player_state = PlayerState.FREE_MOVE
+
+
+
+func crows_nest_control():
+	if Input.is_action_just_pressed("interact"):
+		exited_crows_nest.emit()
+		exit_crows_next_animation()
+	if Input.is_action_pressed("shoot_laser"):
+		# TODO trigger laser visuals
+		crow_cam.check_laser_target()
+	if Input.is_action_pressed("shoot_grappling_hook"):
+		# TODO trigger hook visuals
+		pass
+		
+	
+
 func _physics_process(delta):
 	var movement = Vector3()
-	
-	if player_state != PlayerState.FREE_MOVE:
+	if blocked:
 		return
 
-	if Input.is_action_pressed("move_left"):
-		movement.x -= 1.0
-	if Input.is_action_pressed("move_right"):
-		movement.x += 1.0
-	if Input.is_action_pressed("move_forward"):
-		movement.z -= 1.0
-	if Input.is_action_pressed("move_backwards"):
-		movement.z += 1.0
+	if player_state == PlayerState.IN_CROWS_NEST:
+		crows_nest_control()
+		return
+	
+	if player_state == PlayerState.FREE_MOVE:
+		if Input.is_action_pressed("move_left"):
+			movement.x -= 1.0
+		if Input.is_action_pressed("move_right"):
+			movement.x += 1.0
+		if Input.is_action_pressed("move_forward"):
+			movement.z -= 1.0
+		if Input.is_action_pressed("move_backwards"):
+			movement.z += 1.0
+		if Input.is_action_just_pressed("interact") and currently_hovering != null:
+			print("Player: emit interacted")
+			currently_hovering.interacted.emit()
 	
 
 	var yaw_rotation = Basis(Vector3.UP, rotation.y)
@@ -69,8 +133,4 @@ func _physics_process(delta):
 		if currently_hovering != null:
 			currently_hovering = null
 			stop_hover_interaction_with.emit()
-	
-	if Input.is_action_just_pressed("interact") and currently_hovering != null:
-		currently_hovering.interacted.emit()
-	
 

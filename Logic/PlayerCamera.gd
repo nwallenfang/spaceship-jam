@@ -26,6 +26,6 @@ func _input(event: InputEvent):
 		#  or actually this where the pause menu should come
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	if event is InputEventMouseMotion:
-		print("oyy nice")
+		#print("oyy nice")
 		look_dir = event.relative * 0.1
 		_rotate_camera()

@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://c1c84hafjsnfl"]
+
+[ext_resource type="ArrayMesh" uid="uid://cpjax3imdikgy" path="res://Assets/Models/Gears/gear_10.obj" id="1_5l1w2"]
+[ext_resource type="Script" path="res://Objects/GearDrop.gd" id="1_wbo0g"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4hdux"]
+radius = 1.35227
+height = 2.70455
+
+[node name="GearDrop" type="Node3D"]
+script = ExtResource("1_wbo0g")
+
+[node name="Gear10" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_5l1w2")
+
+[node name="HookArea" type="Area3D" parent="."]
+collision_layer = 9
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HookArea"]
+shape = SubResource("CapsuleShape3D_4hdux")

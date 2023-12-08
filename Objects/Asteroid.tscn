@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://4ndeomqx8ukx"]
+[gd_scene load_steps=8 format=3 uid="uid://4ndeomqx8ukx"]
 
 [ext_resource type="Script" path="res://Objects/Asteroid.gd" id="1_741me"]
+[ext_resource type="Script" path="res://Objects/LaserArea.gd" id="2_rkflv"]
 [ext_resource type="PackedScene" uid="uid://bo0d8m8mrfcws" path="res://Assets/Models/asteroids.gltf" id="2_uopkt"]
 [ext_resource type="Material" uid="uid://534jbsjdvf4a" path="res://Shaders/GlowingCrack.tres" id="3_46twh"]
 
@@ -17,17 +18,18 @@ rings = 16
 [sub_resource type="SphereShape3D" id="SphereShape3D_d3t0w"]
 radius = 7.56003
 
-[node name="Asteroid" type="Node3D"]
+[node name="Asteroid" type="Node3D" groups=["laserable"]]
 script = ExtResource("1_741me")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 visible = false
 mesh = SubResource("SphereMesh_qp2op")
 
-[node name="Area" type="Area3D" parent="."]
+[node name="LaserArea" type="Area3D" parent="."]
 collision_layer = 9
+script = ExtResource("2_rkflv")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LaserArea"]
 shape = SubResource("SphereShape3D_d3t0w")
 
 [node name="Model" parent="." instance=ExtResource("2_uopkt")]
@@ -36,8 +38,5 @@ transform = Transform3D(5.50081, 0, 0, 0, 5.50081, 0, 0, 0, 5.50081, 0, 0, 3.167
 
 [node name="Icosphere" parent="Model" index="0"]
 material_overlay = ExtResource("3_46twh")
-
-[connection signal="mouse_entered" from="Area" to="." method="_on_area_mouse_entered"]
-[connection signal="mouse_exited" from="Area" to="." method="_on_area_mouse_exited"]
 
 [editable path="Model"]

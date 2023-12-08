@@ -1,11 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://dxcykg8r6a2ma"]
+[gd_scene load_steps=9 format=3 uid="uid://dxcykg8r6a2ma"]
 
 [ext_resource type="Script" path="res://Logic/World.gd" id="1_lcoda"]
 [ext_resource type="Texture2D" uid="uid://dfco54pkwpc7i" path="res://Assets/equirect_skybox.png" id="2_sacim"]
 [ext_resource type="PackedScene" uid="uid://bt002kak4laoj" path="res://Logic/Ship.tscn" id="3_ujrfo"]
 [ext_resource type="PackedScene" uid="uid://pwc3t4qyq7e5" path="res://Logic/Player.tscn" id="4_gt1bf"]
 [ext_resource type="PackedScene" uid="uid://4ndeomqx8ukx" path="res://Objects/Asteroid.tscn" id="5_l2d12"]
-[ext_resource type="PackedScene" uid="uid://c5qjynfu3ngbl" path="res://Objects/Test/DummyInteract.tscn" id="6_10ry7"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_n1dsr"]
 panorama = ExtResource("2_sacim")
@@ -20,6 +19,7 @@ background_energy_multiplier = 1.25
 sky = SubResource("Sky_rcbms")
 ambient_light_source = 3
 ambient_light_color = Color(0.866667, 0.866667, 0.866667, 1)
+ambient_light_sky_contribution = 0.79
 reflected_light_source = 2
 tonemap_mode = 2
 
@@ -37,18 +37,18 @@ shadow_enabled = true
 [node name="Ship" parent="." instance=ExtResource("3_ujrfo")]
 
 [node name="Player" parent="Ship" instance=ExtResource("4_gt1bf")]
-transform = Transform3D(0.0219196, 0, -0.99976, 0, 1, 0, 0.99976, 0, 0.0219196, 0, 0, 0)
+transform = Transform3D(0.0219196, 0, -0.99976, 0, 1, 0, 0.99976, 0, 0.0219196, -0.317764, 0, 0.917125)
 
 [node name="Asteroids" type="Node" parent="."]
 
 [node name="Asteroid1" parent="Asteroids" instance=ExtResource("5_l2d12")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33.9788, 5.37028, 46.941)
+drop = 1
 
 [node name="Asteroid2" parent="Asteroids" instance=ExtResource("5_l2d12")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.83535, 5.37028, 76.5624)
+drop = 1
 
 [node name="Asteroid3" parent="Asteroids" instance=ExtResource("5_l2d12")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.0113, 5.37028, 52.7506)
-
-[node name="DummyInteract" parent="." instance=ExtResource("6_10ry7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.62596, 1.0235, -2.92629)
+drop = 1

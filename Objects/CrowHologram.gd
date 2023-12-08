@@ -1,10 +1,13 @@
-class_name CrowsHologram extends MeshInstance3D
+class_name CrowHologram extends MeshInstance3D
 
 @export var camera: Camera3D
 @export var target_node: Node3D
 @export var interpolation_speed: float = 1.5
 @export var minimum_speed: float = 0.8
 @onready var sphere_radius: float = target_node.global_position.distance_to(camera.global_position)
+
+
+@onready var crows_ray: RayCast3D = $CrowsNestRay
 
 func _process(delta):
 	var camera_pos = camera.global_transform.origin
@@ -27,6 +30,15 @@ func _process(delta):
 	
 	# rotate Hologram so it's perpendicular to the Camera to it
 	set_rotation_away_from_camera()
+	
+	
+	# check raycast
+	if crows_ray.is_colliding():
+		print("crow ray hitting")
+		var collider = crows_ray.get_collider()
+		$SubViewport/Hologram/CrowsNestCrosshair.hitting_target = true
+	else:
+		$SubViewport/Hologram/CrowsNestCrosshair.hitting_target = false
 
 func set_rotation_away_from_camera():
 	var direction = (global_transform.origin - camera.global_transform.origin).normalized()

@@ -1,26 +1,14 @@
-[gd_scene load_steps=13 format=3 uid="uid://bat03rksuy5oy"]
+[gd_scene load_steps=6 format=3 uid="uid://bat03rksuy5oy"]
 
 [ext_resource type="Script" path="res://Objects/CrowsNest.gd" id="1_jjrtw"]
 [ext_resource type="PackedScene" uid="uid://igum1n1skd81" path="res://Logic/interact_area.tscn" id="2_uk1jt"]
-[ext_resource type="Script" path="res://Objects/CrowsCamera.gd" id="3_4dnag"]
-[ext_resource type="Script" path="res://Objects/CrowsHologram.gd" id="4_3sjjv"]
-[ext_resource type="Material" uid="uid://d0cbmmfgjdqlr" path="res://Effects/CrowsNestHoloMaterial.tres" id="4_fq7gp"]
-[ext_resource type="Script" path="res://UI/Crosshair.gd" id="5_p41ra"]
-[ext_resource type="Texture2D" uid="uid://c0x00io6vtrqv" path="res://Assets/Sprites/crosshair_simple.png" id="6_temxk"]
-[ext_resource type="FontFile" uid="uid://wqyeyq1y0ji5" path="res://Assets/Fonts/Agane╠Ç 75 (Extra Bold) sign.ttf" id="7_3rk2t"]
+[ext_resource type="PackedScene" uid="uid://c8gfikucovb3e" path="res://Logic/CrowsCamera.tscn" id="3_coxma"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ra7am"]
 albedo_color = Color(0.768627, 0.415686, 0.364706, 1)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_p00vx"]
 height = 1.45424
-
-[sub_resource type="QuadMesh" id="QuadMesh_l6heq"]
-resource_local_to_scene = true
-material = ExtResource("4_fq7gp")
-size = Vector2(1.6, 0.9)
-
-[sub_resource type="Theme" id="Theme_im6al"]
 
 [node name="CrowsNest" type="Node3D"]
 script = ExtResource("1_jjrtw")
@@ -43,75 +31,6 @@ material = SubResource("StandardMaterial3D_ra7am")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.197941, -0.127003)
 shape = SubResource("CapsuleShape3D_p00vx")
 
-[node name="CrowsCamera" type="Camera3D" parent="."]
-process_mode = 4
-transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0, 0.584379, 0)
-script = ExtResource("3_4dnag")
-
-[node name="CrowsHologram" type="MeshInstance3D" parent="CrowsCamera" node_paths=PackedStringArray("camera", "target_node")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.635)
-mesh = SubResource("QuadMesh_l6heq")
-script = ExtResource("4_3sjjv")
-camera = NodePath("..")
-target_node = NodePath("../HologramTarget")
-
-[node name="SubViewport" type="SubViewport" parent="CrowsCamera/CrowsHologram"]
-disable_3d = true
-transparent_bg = true
-size = Vector2i(1280, 720)
-
-[node name="Control" type="Control" parent="CrowsCamera/CrowsHologram/SubViewport"]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Crosshair" type="Control" parent="CrowsCamera/CrowsHologram/SubViewport/Control"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("5_p41ra")
-
-[node name="CrosshairContainer" type="CenterContainer" parent="CrowsCamera/CrowsHologram/SubViewport/Control/Crosshair"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="CrosshairTexture" type="TextureRect" parent="CrowsCamera/CrowsHologram/SubViewport/Control/Crosshair/CrosshairContainer"]
-layout_mode = 2
-texture = ExtResource("6_temxk")
-expand_mode = 2
-stretch_mode = 3
-
-[node name="InteractLabel" type="Label" parent="CrowsCamera/CrowsHologram/SubViewport/Control/Crosshair"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.525
-anchor_right = 1.0
-anchor_bottom = 0.563889
-theme = SubResource("Theme_im6al")
-theme_override_fonts/font = ExtResource("7_3rk2t")
-theme_override_font_sizes/font_size = 20
-text = "[E] Interact"
-horizontal_alignment = 1
-metadata/_edit_use_anchors_ = true
-
-[node name="RayCast3D" type="RayCast3D" parent="CrowsCamera/CrowsHologram"]
-transform = Transform3D(1, 0, 0, 0, -5.96046e-08, -1, 0, 1, -5.96046e-08, 0, 0, 0)
-target_position = Vector3(0, -500, 0)
-
-[node name="HologramTarget" type="Marker3D" parent="CrowsCamera"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.635)
+[node name="CrowCamera" parent="." instance=ExtResource("3_coxma")]
 
 [connection signal="interacted" from="InteractArea" to="." method="_on_interact_area_interacted"]

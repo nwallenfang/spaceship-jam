@@ -37,7 +37,4 @@ transform = Transform3D(5.50081, 0, 0, 0, 5.50081, 0, 0, 0, 5.50081, 0, 0, 3.167
 [node name="Icosphere" parent="Model" index="0"]
 material_overlay = ExtResource("3_46twh")
 
-[connection signal="mouse_entered" from="Area" to="." method="_on_area_mouse_entered"]
-[connection signal="mouse_exited" from="Area" to="." method="_on_area_mouse_exited"]
-
 [editable path="Model"]

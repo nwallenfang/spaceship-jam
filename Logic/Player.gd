@@ -31,9 +31,6 @@ var player_state: PlayerState = PlayerState.FREE_MOVE:
 		if player_state == new_state:
 			if new_state == PlayerState.IN_CROWS_NEST:
 				printerr("set to same player state " + PlayerState.keys()[new_state])
-		#if new_state == PlayerState.IN_CROWS_NEST:
-			#entered_crows_nest.emit()
-
 
 		player_state = new_state
 			
@@ -47,8 +44,8 @@ func _ready():
 	
 
 var prev_camera_transform: Transform3D
-var crow_cam: Camera3D
-func enter_crows_nest(crow_cam_ref: Camera3D):
+var crow_cam: CrowCamera
+func enter_crows_nest(crow_cam_ref: CrowCamera):
 	start_entering_crows_nest.emit()
 	crow_cam = crow_cam_ref
 	player_state = Player.PlayerState.IN_CROWS_NEST
@@ -78,16 +75,29 @@ func exit_crows_next_animation():
 	
 	player_state = PlayerState.FREE_MOVE
 
+
+
+func crows_nest_control():
+	if Input.is_action_just_pressed("interact"):
+		exited_crows_nest.emit()
+		exit_crows_next_animation()
+	if Input.is_action_pressed("shoot_laser"):
+		# TODO trigger laser visuals
+		crow_cam.check_laser_target()
+	if Input.is_action_pressed("shoot_grappling_hook"):
+		# TODO trigger hook visuals
+		pass
+		
+	
+
 func _physics_process(delta):
 	var movement = Vector3()
 	if blocked:
 		return
 
 	if player_state == PlayerState.IN_CROWS_NEST:
-		if Input.is_action_just_pressed("interact"):
-			exited_crows_nest.emit()
-			exit_crows_next_animation()
-			return
+		crows_nest_control()
+		return
 	
 	if player_state == PlayerState.FREE_MOVE:
 		if Input.is_action_pressed("move_left"):

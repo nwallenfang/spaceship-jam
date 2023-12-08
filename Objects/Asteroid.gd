@@ -1,4 +1,4 @@
-extends Node3D
+class_name Asteroid extends Node3D
 
 const MAX_HP = 100.0
 const LASER_DRAIN = 35.0
@@ -24,9 +24,3 @@ func damage_process(delta: float):
 
 func destroy():
 	queue_free()
-
-func _on_area_mouse_entered() -> void:
-	print("enter")
-
-func _on_area_mouse_exited() -> void:
-	print("exit")

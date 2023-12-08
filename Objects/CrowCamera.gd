@@ -1,4 +1,4 @@
-class_name CrowsCamera extends Camera3D
+class_name CrowCamera extends Camera3D
 
 @export_range(0.1, 3.0, 0.1, "or_greater")
 var camera_sens: float = 1
@@ -21,3 +21,19 @@ func _input(event: InputEvent):
 	if event is InputEventMouseMotion:
 		look_dir = event.relative * 0.1
 		_rotate_camera()
+		
+		
+var last_target: Asteroid
+func check_laser_target():
+	if $CrowsHologram/CrowsNestRay.is_colliding():
+		# for now only Asteroids, need to add others
+		# or introduce a group
+		var target: Asteroid = $CrowsHologram/CrowsNestRay.get_collider().get_parent() as Asteroid
+		target.is_hit_by_laser = true
+		
+		if last_target != null and last_target != target:
+			last_target.is_hit_by_laser = false
+		last_target = target
+	else:
+		if is_instance_valid(last_target) and last_target != null:
+			last_target.is_hit_by_laser = false

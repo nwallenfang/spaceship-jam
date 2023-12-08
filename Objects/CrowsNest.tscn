@@ -48,12 +48,12 @@ process_mode = 4
 transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0, 0.584379, 0)
 script = ExtResource("3_4dnag")
 
-[node name="CrowsHologram" type="MeshInstance3D" parent="CrowsCamera" node_paths=PackedStringArray("target_node")]
+[node name="CrowsHologram" type="MeshInstance3D" parent="CrowsCamera" node_paths=PackedStringArray("camera", "target_node")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.635)
 mesh = SubResource("QuadMesh_l6heq")
 script = ExtResource("4_3sjjv")
+camera = NodePath("..")
 target_node = NodePath("../HologramTarget")
-lerp_speed = 0.655
 
 [node name="SubViewport" type="SubViewport" parent="CrowsCamera/CrowsHologram"]
 disable_3d = true

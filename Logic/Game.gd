@@ -2,6 +2,8 @@ extends Node
 
 var player: Player = null
 
+var ui: UI = null
+
 
 enum State {
 	IN_MAIN_MENU,

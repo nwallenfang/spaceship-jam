@@ -39,6 +39,14 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 
+[node name="Vector1" type="Label" parent="Margin/Diagnostics"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Vector2" type="Label" parent="Margin/Diagnostics"]
+unique_name_in_owner = true
+layout_mode = 2
+
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.5
 autostart = true

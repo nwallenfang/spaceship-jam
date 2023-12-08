@@ -10,6 +10,8 @@ func _ready():
 		Game.player.exited_crows_nest.connect(exit_crows_nest)
 	else:
 		printerr("UI not wired up to Player.")
+		
+	Game.ui = self
 
 
 
@@ -31,6 +33,11 @@ func enter_crows_nest():
 func exit_crows_nest():
 	%ExitLabel.visible = false
 	$Crosshair.visible = true
+	
+
+func set_vectors(vec1: Vector3, vec2: Vector3):
+	%Vector1.text = str(vec1)
+	%Vector2.text = str(vec2)
 
 
 func _on_timer_timeout():

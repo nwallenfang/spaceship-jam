@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://br3qriqytnf4m"]
+
+[resource]
+resource_name = "Shipwalls"
+albedo_color = Color(0.704535, 0.704535, 0.704535, 1)
+metallic = 0.601036
+roughness = 0.727979

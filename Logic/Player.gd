@@ -48,6 +48,7 @@ func _ready():
 
 var prev_camera_transform: Transform3D
 var crow_cam: CrowCamera
+const CROWS_NEST_HEIGHT = 6.0
 func enter_crows_nest(crow_cam_ref: CrowCamera):
 	start_entering_crows_nest.emit()
 	crow_cam = crow_cam_ref
@@ -63,7 +64,7 @@ func enter_crows_nest(crow_cam_ref: CrowCamera):
 	# small delay
 	await get_tree().create_timer(.4).timeout
 	# lerp crow cam upwards to the final position
-	var target = crow_cam.transform.translated(Vector3(0.0, 4.0, 0.0))
+	var target = crow_cam.transform.translated(CROWS_NEST_HEIGHT * Vector3.UP)
 	var tween = create_tween()
 	tween.tween_property(crow_cam, "transform", target, 3.0).set_trans(Tween.TRANS_QUAD)
 	

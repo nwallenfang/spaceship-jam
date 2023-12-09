@@ -1,11 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://bt002kak4laoj"]
+[gd_scene load_steps=10 format=3 uid="uid://bt002kak4laoj"]
 
 [ext_resource type="Script" path="res://Logic/Ship.gd" id="1_acve8"]
 [ext_resource type="PackedScene" uid="uid://bat03rksuy5oy" path="res://Objects/CrowsNest.tscn" id="1_pm2fd"]
 [ext_resource type="PackedScene" uid="uid://dhwbncwahx0yn" path="res://Objects/LootStation.tscn" id="3_v4bby"]
 [ext_resource type="PackedScene" uid="uid://smaqxq30h2yc" path="res://Objects/FuelDrop.tscn" id="5_j6tko"]
-[ext_resource type="PackedScene" uid="uid://drsk7ofypkanx" path="res://Assets/Models/Spaceship_v2.gltf" id="6_fi4pk"]
 [ext_resource type="PackedScene" uid="uid://b6l8xq68dtdoa" path="res://Objects/FuelStation.tscn" id="6_ql016"]
+[ext_resource type="PackedScene" uid="uid://cjfknmeh3c851" path="res://Assets/Models/Spaceship_v3.gltf" id="6_ttp4y"]
+[ext_resource type="PackedScene" uid="uid://caet3vemok4wp" path="res://Objects/ShipInterior/DoorWorkshop.tscn" id="7_wm5d2"]
+[ext_resource type="PackedScene" uid="uid://bhj2vf1b4ak13" path="res://Objects/ShipInterior/DoorCrowsnest.tscn" id="8_vffrc"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_r0a3s"]
 size = Vector3(3.71143, 1.78857, 1)
@@ -36,4 +38,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.354633, 1.76523, -13.8352)
 [node name="FuelStation" parent="." instance=ExtResource("6_ql016")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.29509, 0.641441, -12.5231)
 
-[node name="Spaceship_v2" parent="." instance=ExtResource("6_fi4pk")]
+[node name="Spaceship_v3" parent="." instance=ExtResource("6_ttp4y")]
+
+[node name="Doors" type="Node3D" parent="."]
+
+[node name="DoorWorkshop" parent="Doors" instance=ExtResource("7_wm5d2")]
+
+[node name="DoorCrowsnest" parent="Doors" instance=ExtResource("8_vffrc")]

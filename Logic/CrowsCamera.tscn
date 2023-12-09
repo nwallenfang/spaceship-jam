@@ -1,7 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://c8gfikucovb3e"]
+[gd_scene load_steps=7 format=3 uid="uid://dujp42jf7tvm7"]
 
 [ext_resource type="Script" path="res://Objects/CrowCamera.gd" id="1_nuljb"]
-[ext_resource type="Material" uid="uid://d0cbmmfgjdqlr" path="res://Effects/CrowsNestHoloMaterial.tres" id="2_eedu6"]
+[ext_resource type="Material" uid="uid://dr457ul7bovw" path="res://Effects/CrowsNestHoloMaterial.tres" id="2_eedu6"]
 [ext_resource type="Script" path="res://Objects/CrowHologram.gd" id="3_cylbw"]
 [ext_resource type="Script" path="res://UI/CrowsNestCrosshair.gd" id="4_2qf4x"]
 [ext_resource type="Texture2D" uid="uid://bs7wcsjcsufkh" path="res://Assets/Sprites/crosshair_full_scaled.png" id="5_ujo42"]

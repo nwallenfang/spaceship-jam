@@ -13,6 +13,9 @@ var blocked = false
 
 
 var currently_hovering: InteractArea = null
+var currently_holding: Node3D = null
+
+
 signal hover_interaction_with(action_hint: String)
 signal stop_hover_interaction_with
 

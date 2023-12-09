@@ -1,6 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://d4a0ctnaddnb7"]
+[gd_scene load_steps=8 format=3 uid="uid://d4a0ctnaddnb7"]
 
 [ext_resource type="Script" path="res://Logic/HookArea.gd" id="1_q6e4y"]
+[ext_resource type="Script" path="res://Objects/InteractableLoot.gd" id="2_6comv"]
+[ext_resource type="PackedScene" uid="uid://igum1n1skd81" path="res://Logic/interact_area.tscn" id="3_ap2ia"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a0kd7"]
 albedo_color = Color(0.85098, 0.705882, 0.231373, 1)
@@ -15,19 +17,55 @@ size = Vector3(2, 2, 2)
 radius = 1.5
 height = 4.4
 
-[node name="FuelDrop" type="Node3D" groups=["grabbable"]]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_66bkm"]
+height = 1.29152
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="FuelDrop" type="Node3D" groups=["grabbable"]]
+script = ExtResource("2_6comv")
+
+[node name="SpaceVisuals" type="Node3D" parent="."]
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="SpaceVisuals"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("PrismMesh_880fu")
+skeleton = NodePath("../..")
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="SpaceVisuals"]
 transform = Transform3D(-1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0, 0, 1, 0, -1, 0)
 mesh = SubResource("PrismMesh_880fu")
+skeleton = NodePath("../..")
 
-[node name="HookArea" type="Area3D" parent="."]
-collision_layer = 9
+[node name="HookArea" type="Area3D" parent="SpaceVisuals"]
+collision_layer = 8
 script = ExtResource("1_q6e4y")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="HookArea"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SpaceVisuals/HookArea"]
+visible = false
 shape = SubResource("CapsuleShape3D_cowdl")
+
+[node name="ShipRigidBody" type="RigidBody3D" parent="."]
+process_mode = 4
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="ShipRigidBody"]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0.307662, 0)
+mesh = SubResource("PrismMesh_880fu")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="ShipRigidBody"]
+transform = Transform3D(-0.3, -4.52987e-08, 0, 4.52987e-08, -0.3, 0, 0, 0, 0.3, 0, -0.311, 0)
+mesh = SubResource("PrismMesh_880fu")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ShipRigidBody"]
+shape = SubResource("CapsuleShape3D_66bkm")
+
+[node name="InteractArea" parent="ShipRigidBody" instance=ExtResource("3_ap2ia")]
+collision_layer = 4
+collision_mask = 2
+action_hint = "Pick Up"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ShipRigidBody/InteractArea"]
+shape = SubResource("CapsuleShape3D_66bkm")
+
+[connection signal="interacted" from="ShipRigidBody/InteractArea" to="." method="_on_interact_area_interacted"]

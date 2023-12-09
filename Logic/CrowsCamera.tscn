@@ -18,6 +18,7 @@ script = ExtResource("1_nuljb")
 fixed_camera = false
 
 [node name="HoloPivot" type="Camera3D" parent="."]
+visible = false
 
 [node name="CrowsHologram" type="MeshInstance3D" parent="HoloPivot" node_paths=PackedStringArray("camera", "target_node")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.635)

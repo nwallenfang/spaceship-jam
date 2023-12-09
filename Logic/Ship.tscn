@@ -1,12 +1,40 @@
-[gd_scene load_steps=3 format=3 uid="uid://bt002kak4laoj"]
+[gd_scene load_steps=8 format=3 uid="uid://bt002kak4laoj"]
 
+[ext_resource type="Script" path="res://Logic/Ship.gd" id="1_acve8"]
 [ext_resource type="PackedScene" uid="uid://bat03rksuy5oy" path="res://Objects/CrowsNest.tscn" id="1_pm2fd"]
 [ext_resource type="PackedScene" uid="uid://bgv8n32gd5yh8" path="res://Assets/Models/Spaceship.gltf" id="2_q5m7d"]
+[ext_resource type="PackedScene" uid="uid://dhwbncwahx0yn" path="res://Objects/LootStation.tscn" id="3_v4bby"]
+[ext_resource type="PackedScene" uid="uid://d4a0ctnaddnb7" path="res://Objects/FuelDrop.tscn" id="5_j6tko"]
+[ext_resource type="PackedScene" uid="uid://b6l8xq68dtdoa" path="res://Objects/FuelStation.tscn" id="6_ql016"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_r0a3s"]
+size = Vector3(3.71143, 1.78857, 1)
 
 [node name="Ship" type="Node3D"]
+script = ExtResource("1_acve8")
 
 [node name="CrowsNest" parent="." instance=ExtResource("1_pm2fd")]
 transform = Transform3D(-0.988282, 0, -0.152641, 0, 1, 0, 0.152641, 0, -0.988282, 0.237, 0.09, -1.723)
 
 [node name="Spaceship" parent="." instance=ExtResource("2_q5m7d")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.228477, 0, -1.54229)
+
+[node name="LootStation" parent="." node_paths=PackedStringArray("trigger_spawn_area") instance=ExtResource("3_v4bby")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.36165, 1.12702, -11.8711)
+trigger_spawn_area = NodePath("../LootTrigger")
+
+[node name="LootTrigger" type="Area3D" parent="."]
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LootTrigger"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.273387, 1.06991, -7.72237)
+shape = SubResource("BoxShape3D_r0a3s")
+
+[node name="FuelDrop" parent="." instance=ExtResource("5_j6tko")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -4.76837e-07, -3.96314, -7.33464)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.354633, 1.76523, -13.8352)
+
+[node name="FuelStation" parent="." instance=ExtResource("6_ql016")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.29509, 0.641441, -12.5231)

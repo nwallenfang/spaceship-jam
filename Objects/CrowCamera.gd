@@ -8,12 +8,19 @@ var look_dir: Vector2
 
 @export var fixed_camera: bool = true
 
+func _ready():
+	if Game.player != null:
+		Game.player.entered_crows_nest.connect(enable)
+		Game.player.exited_crows_nest.connect(disable)
 
 func enable():
 	process_mode = Node.PROCESS_MODE_INHERIT
 	$HoloPivot.top_level = true
 	$HoloPivot.visible = true
 	$HoloPivot.global_position = self.global_position
+	
+func disable():
+	$HoloPivot.visible = falsead
 
 func _rotate_camera(sens_mod: float = 1.0) -> void:
 	rotation_degrees.y -= look_dir.x * camera_sens * sens_mod

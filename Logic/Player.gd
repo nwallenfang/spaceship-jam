@@ -87,11 +87,11 @@ func crows_nest_control():
 	if Input.is_action_pressed("shoot_laser"):
 		# TODO trigger laser visuals
 		crow_cam.check_laser_target()
+	else:
+		crow_cam.stop_laser()
 	if Input.is_action_pressed("shoot_grappling_hook"):
-		# TODO trigger hook visuals
-		pass
-		
-	
+		crow_cam.check_hook_target()
+
 
 func _physics_process(delta):
 	var movement = Vector3()

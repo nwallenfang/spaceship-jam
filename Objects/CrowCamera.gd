@@ -46,7 +46,21 @@ func check_laser_target():
 	else:
 		if is_instance_valid(last_target) and last_target != null:
 			last_target.get_parent().is_hit_by_laser = false
+	
+func stop_laser():
+	if is_instance_valid(last_target) and last_target != null:
+		last_target.get_parent().is_hit_by_laser = false
+		last_target = null
 			
 func check_hook_target():
 	# I would say for hooking you don't have to keep the button pressed
-	pass
+	if $HoloPivot/CrowsHologram/CrowsNestRay.is_colliding():
+		var target = $HoloPivot/CrowsHologram/CrowsNestRay.get_collider()
+		if target != null and target is HookArea:
+			# maybe (hopefully) got destroyed just this frame
+			var object = target.get_parent()
+			var tween = create_tween()
+			tween.tween_property(object, "global_transform", hook_target.global_transform, 2.0)
+			await tween.finished
+			object.visible = false
+			Game.loot_queue.append(object)

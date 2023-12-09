@@ -15,7 +15,6 @@ size = Vector2(1.6, 0.9)
 process_mode = 4
 transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0, 0.584379, 0)
 script = ExtResource("1_nuljb")
-fixed_camera = false
 
 [node name="HoloPivot" type="Camera3D" parent="."]
 

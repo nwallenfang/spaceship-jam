@@ -20,7 +20,7 @@ func enable():
 	$HoloPivot.global_position = self.global_position
 	
 func disable():
-	$HoloPivot.visible = falsead
+	$HoloPivot.visible = false
 
 func _rotate_camera(sens_mod: float = 1.0) -> void:
 	rotation_degrees.y -= look_dir.x * camera_sens * sens_mod

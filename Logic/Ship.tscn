@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" path="res://Logic/Ship.gd" id="1_acve8"]
 [ext_resource type="PackedScene" uid="uid://bat03rksuy5oy" path="res://Objects/CrowsNest.tscn" id="1_pm2fd"]
-[ext_resource type="PackedScene" uid="uid://bgv8n32gd5yh8" path="res://Assets/Models/Spaceship.gltf" id="2_q5m7d"]
 [ext_resource type="PackedScene" uid="uid://dhwbncwahx0yn" path="res://Objects/LootStation.tscn" id="3_v4bby"]
 [ext_resource type="PackedScene" uid="uid://d4a0ctnaddnb7" path="res://Objects/FuelDrop.tscn" id="5_j6tko"]
+[ext_resource type="PackedScene" uid="uid://drsk7ofypkanx" path="res://Assets/Models/Spaceship_v2.gltf" id="6_fi4pk"]
 [ext_resource type="PackedScene" uid="uid://b6l8xq68dtdoa" path="res://Objects/FuelStation.tscn" id="6_ql016"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_r0a3s"]
@@ -15,9 +15,6 @@ script = ExtResource("1_acve8")
 
 [node name="CrowsNest" parent="." instance=ExtResource("1_pm2fd")]
 transform = Transform3D(-0.988282, 0, -0.152641, 0, 1, 0, 0.152641, 0, -0.988282, 0.237, 0.09, -1.723)
-
-[node name="Spaceship" parent="." instance=ExtResource("2_q5m7d")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.228477, 0, -1.54229)
 
 [node name="LootStation" parent="." node_paths=PackedStringArray("trigger_spawn_area") instance=ExtResource("3_v4bby")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.36165, 1.12702, -11.8711)
@@ -38,3 +35,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.354633, 1.76523, -13.8352)
 
 [node name="FuelStation" parent="." instance=ExtResource("6_ql016")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -2.29509, 0.641441, -12.5231)
+
+[node name="Spaceship_v2" parent="." instance=ExtResource("6_fi4pk")]

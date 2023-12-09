@@ -13,7 +13,7 @@ material = SubResource("StandardMaterial3D_lqbg8")
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_50cj3"]
 
 [node name="Player" type="CharacterBody3D"]
-collision_layer = 3
+collision_layer = 2
 script = ExtResource("1_8yl3e")
 
 [node name="DebugMesh" type="MeshInstance3D" parent="."]

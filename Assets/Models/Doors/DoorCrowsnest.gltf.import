@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://blygxs8ubiko5"
-path="res://.godot/imported/Spaceship_v2.gltf-a4551c9e01822581c5d763d5e065bc3f.scn"
+uid="uid://cqjm88ba0emxy"
+path="res://.godot/imported/DoorCrowsnest.gltf-8429d19823a9831d38b54ce6169615f0.scn"
 
 [deps]
 
-source_file="res://Assets/Models/Spaceship_v2.gltf"
-dest_files=["res://.godot/imported/Spaceship_v2.gltf-a4551c9e01822581c5d763d5e065bc3f.scn"]
+source_file="res://Assets/Models/Doors/DoorCrowsnest.gltf"
+dest_files=["res://.godot/imported/DoorCrowsnest.gltf-8429d19823a9831d38b54ce6169615f0.scn"]
 
 [params]
 

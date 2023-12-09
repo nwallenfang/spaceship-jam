@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Logic/Ship.gd" id="1_acve8"]
 [ext_resource type="PackedScene" uid="uid://bat03rksuy5oy" path="res://Objects/CrowsNest.tscn" id="1_pm2fd"]
 [ext_resource type="PackedScene" uid="uid://dhwbncwahx0yn" path="res://Objects/LootStation.tscn" id="3_v4bby"]
-[ext_resource type="PackedScene" uid="uid://d4a0ctnaddnb7" path="res://Objects/FuelDrop.tscn" id="5_j6tko"]
+[ext_resource type="PackedScene" uid="uid://smaqxq30h2yc" path="res://Objects/FuelDrop.tscn" id="5_j6tko"]
 [ext_resource type="PackedScene" uid="uid://drsk7ofypkanx" path="res://Assets/Models/Spaceship_v2.gltf" id="6_fi4pk"]
 [ext_resource type="PackedScene" uid="uid://b6l8xq68dtdoa" path="res://Objects/FuelStation.tscn" id="6_ql016"]
 

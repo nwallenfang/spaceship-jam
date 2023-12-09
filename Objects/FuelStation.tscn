@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://b6l8xq68dtdoa"]
+
+[ext_resource type="Script" path="res://Objects/InteractArea.gd" id="1_ppv65"]
+
+[node name="FuelStation" type="Node3D"]
+
+[node name="Box" type="CSGBox3D" parent="."]
+size = Vector3(1.5, 1, 1)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Box"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+operation = 2
+height = 4.65426
+
+[node name="InteractArea" type="Area3D" parent="."]
+script = ExtResource("1_ppv65")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractArea"]

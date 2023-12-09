@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://bat03rksuy5oy"]
 
 [ext_resource type="Script" path="res://Objects/CrowsNest.gd" id="1_jjrtw"]
-[ext_resource type="PackedScene" uid="uid://igum1n1skd81" path="res://Logic/interact_area.tscn" id="2_uk1jt"]
-[ext_resource type="PackedScene" uid="uid://c8gfikucovb3e" path="res://Logic/CrowsCamera.tscn" id="3_coxma"]
+[ext_resource type="PackedScene" path="res://Logic/interact_area.tscn" id="2_uk1jt"]
+[ext_resource type="PackedScene" uid="uid://dujp42jf7tvm7" path="res://Logic/CrowsCamera.tscn" id="3_coxma"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ra7am"]
 albedo_color = Color(0.768627, 0.415686, 0.364706, 1)

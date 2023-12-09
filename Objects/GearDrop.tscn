@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://c1c84hafjsnfl"]
+[gd_scene load_steps=4 format=3 uid="uid://7lpsyhuejkeb"]
 
 [ext_resource type="ArrayMesh" uid="uid://cpjax3imdikgy" path="res://Assets/Models/Gears/gear_10.obj" id="1_5l1w2"]
 [ext_resource type="Script" path="res://Objects/GearDrop.gd" id="1_wbo0g"]

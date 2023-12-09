@@ -1,12 +1,32 @@
-[gd_scene load_steps=3 format=3 uid="uid://bt002kak4laoj"]
+[gd_scene load_steps=6 format=3 uid="uid://bt002kak4laoj"]
 
 [ext_resource type="PackedScene" uid="uid://bat03rksuy5oy" path="res://Objects/CrowsNest.tscn" id="1_pm2fd"]
 [ext_resource type="PackedScene" uid="uid://bgv8n32gd5yh8" path="res://Assets/Models/Spaceship.gltf" id="2_q5m7d"]
+[ext_resource type="PackedScene" uid="uid://cjfknmeh3c851" path="res://Assets/Models/Spaceship_v3.gltf" id="3_nwwwk"]
+[ext_resource type="PackedScene" uid="uid://caet3vemok4wp" path="res://Objects/ShipInterior/DoorWorkshop.tscn" id="4_8iv5w"]
+[ext_resource type="PackedScene" uid="uid://bhj2vf1b4ak13" path="res://Objects/ShipInterior/DoorCrowsnest.tscn" id="5_w73jv"]
 
 [node name="Ship" type="Node3D"]
 
 [node name="CrowsNest" parent="." instance=ExtResource("1_pm2fd")]
-transform = Transform3D(-0.988282, 0, -0.152641, 0, 1, 0, 0.152641, 0, -0.988282, 0.237, 0.09, -1.723)
+transform = Transform3D(-0.988282, 0, -0.152641, 0, 1, 0, 0.152641, 0, -0.988282, -0.145571, 0.09, -0.0393852)
 
 [node name="Spaceship" parent="." instance=ExtResource("2_q5m7d")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.228477, 0, -1.54229)
+visible = false
+
+[node name="Spaceship_v3" parent="." instance=ExtResource("3_nwwwk")]
+
+[node name="DoorWorkshopNeg" parent="Spaceship_v3" index="10"]
+visible = false
+
+[node name="DoorWorkshopPos" parent="Spaceship_v3" index="11"]
+visible = false
+
+[node name="Interior" type="Node3D" parent="."]
+
+[node name="DoorWorkshop" parent="Interior" instance=ExtResource("4_8iv5w")]
+
+[node name="DoorCrowsnest" parent="Interior" instance=ExtResource("5_w73jv")]
+
+[editable path="Spaceship_v3"]

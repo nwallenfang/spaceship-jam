@@ -97,6 +97,7 @@ pause_game={
 3d_physics/layer_2="Player"
 3d_physics/layer_3="Interactable"
 3d_physics/layer_4="CrowsNestPickable"
+3d_physics/layer_5="RigidBody"
 
 [rendering]
 

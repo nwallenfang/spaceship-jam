@@ -13,11 +13,20 @@ var blocked = false
 
 
 var currently_hovering: InteractArea = null
-var currently_holding: Node3D = null
+var currently_holding: Node3D = null:
+	set(o):
+		currently_holding = o
+		if o != null:
+			o.reparent($Smoothing/PlayerCamera)
+			o.transform = $Smoothing/PlayerCamera/PickupLocation.transform
 
-
-signal hover_interaction_with(action_hint: String)
+## action hint or not interactable message
+signal hover_interaction_with(is_interactable: bool, action_hint: String)
 signal stop_hover_interaction_with
+
+# not connected yet
+signal picked_up(object: Node3D)
+signal dropped(object: Node3D)
 
 signal start_entering_crows_nest
 signal entered_crows_nest
@@ -48,7 +57,7 @@ func _ready():
 
 var prev_camera_transform: Transform3D
 var crow_cam: CrowCamera
-const CROWS_NEST_HEIGHT = 6.0
+const CROWS_NEST_HEIGHT = 8.0
 func enter_crows_nest(crow_cam_ref: CrowCamera):
 	start_entering_crows_nest.emit()
 	crow_cam = crow_cam_ref
@@ -116,9 +125,9 @@ func _physics_process(delta):
 		if Input.is_action_pressed("move_backwards"):
 			movement.z += 1.0
 		if Input.is_action_just_pressed("interact") and currently_hovering != null:
-			print("Player: emit interacted")
-			currently_hovering.interacted.emit()
-	
+			if currently_hovering.is_interactable:
+				currently_hovering.interacted.emit()
+				stop_hover_interaction_with.emit()
 
 	var yaw_rotation = Basis(Vector3.UP, rotation.y)
 	movement = (yaw_rotation * movement).normalized() * speed * delta
@@ -130,9 +139,14 @@ func _physics_process(delta):
 		var collider = raycast.get_collider()
 		assert(collider is InteractArea)
 		
+		collider.requesting_is_interactable_update.emit()
+
 		if currently_hovering == null or currently_hovering != collider:
 			currently_hovering = collider
-			hover_interaction_with.emit(currently_hovering.action_hint)
+			if currently_hovering.is_interactable:
+				hover_interaction_with.emit(true, currently_hovering.action_hint)
+			else:
+				hover_interaction_with.emit(false, currently_hovering.not_interactable_message)
 	else:
 		if currently_hovering != null:
 			currently_hovering = null

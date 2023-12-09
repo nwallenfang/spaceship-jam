@@ -11,6 +11,7 @@ func spawn_loot_queue_items(_body):
 	for loot in Game.loot_queue:
 		loot.visible = true
 		loot.global_position = $SpawnPosition.global_position
-		#if loot.has_node("InteractableLoot"):
 		loot.enter_loot_box()
 		await get_tree().create_timer(.4).timeout
+		
+	Game.loot_queue = []

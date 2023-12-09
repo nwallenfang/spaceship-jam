@@ -1,4 +1,4 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://d0cbmmfgjdqlr"]
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://dr457ul7bovw"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_86dah"]
 viewport_path = NodePath("HoloPivot/CrowsHologram/SubViewport")

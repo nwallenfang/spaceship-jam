@@ -1,0 +1,53 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://bup3xmdlunoaa"]
+
+[sub_resource type="Shader" id="Shader_qw7tf"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.2.stable's StandardMaterial3D.
+
+shader_type spatial;
+render_mode blend_mix,depth_draw_opaque,cull_back,diffuse_burley,specular_schlick_ggx,unshaded;
+
+#include \"res://Shaders/lib.gdshaderinc\"
+
+uniform vec4 albedo : source_color;
+uniform sampler2D texture_albedo : source_color,filter_linear_mipmap,repeat_enable;
+uniform sampler2D noise_sampler;
+
+uniform float progress: hint_range(0.0, 1.0);
+
+void vertex() {
+	MODELVIEW_MATRIX = VIEW_MATRIX * mat4(INV_VIEW_MATRIX[0], INV_VIEW_MATRIX[1], INV_VIEW_MATRIX[2], MODEL_MATRIX[3]);
+	MODELVIEW_MATRIX = MODELVIEW_MATRIX * mat4(vec4(length(MODEL_MATRIX[0].xyz), 0.0, 0.0, 0.0), vec4(0.0, length(MODEL_MATRIX[1].xyz), 0.0, 0.0), vec4(0.0, 0.0, length(MODEL_MATRIX[2].xyz), 0.0), vec4(0.0, 0.0, 0.0, 1.0));
+	MODELVIEW_NORMAL_MATRIX = mat3(MODELVIEW_MATRIX);
+}
+
+void fragment() {
+	vec2 base_uv = UV;
+	vec4 albedo_tex = texture(texture_albedo,base_uv);
+	ALBEDO = albedo.rgb * albedo_tex.rgb;
+	float center_dist = distance(vec2(.5), UV) * clamp_and_map(progress, 0.0, 1.0, 3.0, 1.0);
+	float noise = texture(noise_sampler, vec2(positive_direction_of_vec2(UV-vec2(.5)), TIME*.5)).r;
+	ALBEDO.rgb = mix(ALBEDO, vec3(1), clamp_and_map(center_dist - noise* .06, .1, .14, 1.0, 0.0));
+	ALPHA = clamp_and_map_and_pow(center_dist + - 0.05 - noise* .15, .02, .09, 1.0, 0.0, .2);
+	ALPHA = mix(ALPHA, clamp_and_map_and_pow(center_dist, .12, .26, 1.0, 0.0, .3), .5) * clamp_and_map(progress, 0.1, .4, 0.0, 1.0);
+}
+"
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_7ev8g"]
+seed = 1
+frequency = 0.001
+fractal_lacunarity = 2.565
+fractal_weighted_strength = 0.4
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_8fy1h"]
+width = 64
+height = 64
+seamless = true
+seamless_blend_skirt = 1.0
+noise = SubResource("FastNoiseLite_7ev8g")
+
+[resource]
+render_priority = 0
+shader = SubResource("Shader_qw7tf")
+shader_parameter/albedo = Color(1, 0, 0, 1)
+shader_parameter/progress = 1.0
+shader_parameter/noise_sampler = SubResource("NoiseTexture2D_8fy1h")

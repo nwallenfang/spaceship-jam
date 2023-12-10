@@ -23,6 +23,7 @@ config/icon="res://Assets/Sprites/icon.png"
 
 Game="*res://Logic/Game.tscn"
 PauseMenu="*res://UI/PauseMenu.tscn"
+Utility="*res://Logic/Utility.tscn"
 
 [debug]
 

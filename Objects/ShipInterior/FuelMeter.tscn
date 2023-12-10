@@ -1,25 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://bf0egpbrfm0cl"]
+[gd_scene load_steps=4 format=3 uid="uid://bf0egpbrfm0cl"]
 
 [ext_resource type="Script" path="res://Objects/ShipInterior/FuelMeter.gd" id="1_ghghk"]
 [ext_resource type="PackedScene" uid="uid://byggi02jjy2eo" path="res://Assets/Models/Electronics/FuelMeter.gltf" id="2_53c08"]
-[ext_resource type="Shader" path="res://Shaders/FuelMeter.gdshader" id="3_3mrqk"]
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_kvtxs"]
-frequency = 0.0198
-fractal_type = 0
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_t74r4"]
-width = 128
-height = 128
-seamless = true
-noise = SubResource("FastNoiseLite_kvtxs")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ddfi3"]
-render_priority = 0
-shader = ExtResource("3_3mrqk")
-shader_parameter/albedo = Color(1, 1, 1, 1)
-shader_parameter/roughness = 1.0
-shader_parameter/wave_noise = SubResource("NoiseTexture2D_t74r4")
+[ext_resource type="Material" uid="uid://1qatj6rhtcmx" path="res://Shaders/FuelMeter.tres" id="3_yhtw4"]
 
 [node name="FuelMeter" type="Node3D"]
 script = ExtResource("1_ghghk")
@@ -27,6 +10,6 @@ script = ExtResource("1_ghghk")
 [node name="FuelMeter2" parent="." instance=ExtResource("2_53c08")]
 
 [node name="FuelMeter" parent="FuelMeter2" index="0"]
-surface_material_override/1 = SubResource("ShaderMaterial_ddfi3")
+surface_material_override/1 = ExtResource("3_yhtw4")
 
 [editable path="FuelMeter2"]

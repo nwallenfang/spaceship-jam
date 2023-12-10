@@ -14,9 +14,16 @@ func _ready():
 	Game.ui = self
 
 
-
-func start_interaction(action_hint: String):
-	%InteractLabel.text = "[E] " + action_hint
+const interactable_color := Color.WHITE
+const not_interactable_color := Color.WEB_GRAY
+func start_interaction(is_interactable: bool, action_hint: String):
+	if is_interactable:
+		%InteractLabel.text = "[E] " + action_hint
+		%InteractLabel.modulate = interactable_color
+	else:
+		%InteractLabel.text = action_hint
+		%InteractLabel.modulate = not_interactable_color
+		
 	%InteractLabel.visible = true
 	
 	

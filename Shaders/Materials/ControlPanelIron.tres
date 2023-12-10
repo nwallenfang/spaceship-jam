@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://diawdxqeec3je"]
+
+[resource]
+resource_name = "ControlPanelIron"
+albedo_color = Color(0.318174, 0.318174, 0.318174, 1)
+metallic = 0.766839
+roughness = 0.178756

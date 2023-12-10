@@ -1,8 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://b6l8xq68dtdoa"]
+[gd_scene load_steps=4 format=3 uid="uid://b6l8xq68dtdoa"]
 
+[ext_resource type="Script" path="res://Objects/FuelStation.gd" id="1_phns7"]
 [ext_resource type="Script" path="res://Objects/InteractArea.gd" id="1_ppv65"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_g865c"]
+size = Vector3(1.435, 1.01, 1)
+
 [node name="FuelStation" type="Node3D"]
+script = ExtResource("1_phns7")
 
 [node name="Box" type="CSGBox3D" parent="."]
 size = Vector3(1.5, 1, 1)
@@ -13,6 +18,14 @@ operation = 2
 height = 4.65426
 
 [node name="InteractArea" type="Area3D" parent="."]
+collision_layer = 4
 script = ExtResource("1_ppv65")
+action_hint = "Refuel"
+not_interactable_message = "Fuel Crystal needed"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="InteractArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0125845, 0.0265749, 0)
+shape = SubResource("BoxShape3D_g865c")
+
+[connection signal="interacted" from="InteractArea" to="." method="_on_interact_area_interacted"]
+[connection signal="requesting_is_interactable_update" from="InteractArea" to="." method="_on_interact_area_requesting_is_interactable_update"]
